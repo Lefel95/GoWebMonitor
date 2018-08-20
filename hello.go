@@ -18,10 +18,12 @@ func main() {
 		fmt.Println("Showing Logs")
 	case 0:
 		fmt.Println("Exiting...")
-		os.Exit(0)
+		error := false
+		exitProgram(error)
 	default:
 		fmt.Println("Unknown Command")
-		os.Exit(-1)
+		error := true
+		exitProgram(error)
 	}
 }
 
@@ -54,11 +56,10 @@ func startMonitoring() {
 	fmt.Println(http.Get(site))
 }
 
-// func exitProgram(bool error) {
-// 	var error = error
-// 	if error == true {
-
-// 	} else {
-
-// 	}
-// }
+func exitProgram(error bool) {
+	if error == true {
+		os.Exit(-1)
+	} else {
+		os.Exit(0)
+	}
+}
