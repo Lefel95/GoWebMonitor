@@ -8,22 +8,25 @@ import (
 
 func main() {
 	showIntro()
-	showMenu()
-	command := readCommand()
 
-	switch command {
-	case 1:
-		startMonitoring()
-	case 2:
-		fmt.Println("Showing Logs")
-	case 0:
-		fmt.Println("Exiting...")
-		error := false
-		exitProgram(error)
-	default:
-		fmt.Println("Unknown Command")
-		error := true
-		exitProgram(error)
+	for {
+		showMenu()
+		command := readCommand()
+
+		switch command {
+		case 1:
+			startMonitoring()
+		case 2:
+			fmt.Println("Showing Logs")
+		case 0:
+			fmt.Println("Exiting...")
+			error := false
+			exitProgram(error)
+		default:
+			fmt.Println("Unknown Command")
+			error := true
+			exitProgram(error)
+		}
 	}
 }
 
@@ -53,7 +56,13 @@ func readCommand() int {
 func startMonitoring() {
 	fmt.Println("Monitoring")
 	site := "http://google.com"
-	fmt.Println(http.Get(site))
+	resp, _ := http.Get(site)
+
+	if resp.StatusCode == 200 {
+		fmt.Println("The Website: ", site, " was loaded succesfully")
+	} else {
+		fmt.Println("The WebSite: ", site, "had a error! StatusCode: ", resp.StatusCode)
+	}
 }
 
 func exitProgram(error bool) {
